@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textMultiLine"
-        android:text="https://fortunespinwinner.s3.us-east-2.amazonaws.com/com.fortunespinwinner.ghk43/1.0.0/debug/subgame/loading.zip" />
+        android:text="https://dl2.anl.ink/AnLinkSetup.zip" />
 
     <ProgressBar
         android:id="@+id/pb_progress"
@@ -84,6 +84,30 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="开始解压" />
+
+
+    <Button
+        android:id="@+id/btn_other"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="第三方解压" />
+
+    <Button
+        android:id="@+id/btn_storage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="申请存储权限" />
+
+    <Button
+        android:id="@+id/btn_zip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="压缩" />
+
+
 
 
 </LinearLayout>
