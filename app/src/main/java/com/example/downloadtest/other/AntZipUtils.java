@@ -98,7 +98,8 @@ public class AntZipUtils {
 	 * @param zipFilePath ZIP包的路径
 	 * @param targetDirPath 指定的解压缩文件夹地址 */
 	public static void unZip(String zipFilePath, String targetDirPath)throws IOException,Exception {  
-		unZip(new File(zipFilePath), targetDirPath);  
+//		unZip(new File(zipFilePath), targetDirPath);
+		uncompressFile(zipFilePath, targetDirPath);
 	}  
 
 	/**解压ZIP包【建议异步执行】

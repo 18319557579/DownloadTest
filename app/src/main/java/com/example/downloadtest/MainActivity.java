@@ -1,15 +1,20 @@
 package com.example.downloadtest;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -43,7 +48,14 @@ public class MainActivity extends AppCompatActivity {
 
     private Disposable mDownloadTask;
 
-    private MakeZipTask makeZipTask;
+
+    private Button btn_makeZip;
+    private Button btn_unZip;
+    private TextView tv_show;
+    private Button btnApply;
+
+    private MakeZipTask makeZipTask;//生成zip文件的异步请求类
+    private UnZipTask unZipTask;//解压zip文件的异步请求类
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +66,9 @@ public class MainActivity extends AppCompatActivity {
         tvTotalM = findViewById(R.id.tv_total_m);
         tvDownloadM = findViewById(R.id.tv_download_m);
         tvProgress = findViewById(R.id.tv_progress);
+
+        initViews();
+        initEvents();
 
         findViewById(R.id.btn_download).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,29 +157,55 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.btn_zip).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btn_storage_other).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                testAllFiles();
+            }
+        });
+
+
+    }
+
+    private void initViews() {
+        btn_makeZip = (Button) findViewById(R.id.btn_makeZip);
+        btn_unZip = (Button) findViewById(R.id.btn_unZip);
+
+        tv_show = (TextView) findViewById(R.id.tv_show);
+    }
+
+    private void initEvents() {
+        btn_makeZip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //生成ZIP压缩包【建议异步执行】
                 makeZipTask = new MakeZipTask();
                 makeZipTask.execute();
             }
         });
 
+        btn_unZip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //解压ZIP包【建议异步执行】
+                unZipTask = new UnZipTask();
+                unZipTask.execute();
 
-
+            }
+        });
     }
 
     /**
      * 压缩文件的异步请求任务
      *
      */
-    public class MakeZipTask extends AsyncTask<String, Void, String> {
+    public class MakeZipTask extends AsyncTask<String, Void, String>{
 
         @Override
         protected void onPreExecute() {
             //显示进度对话框
             //showProgressDialog("");
-            LogUtils.d("正在压缩...");
+            tv_show.setText("正在压缩...");
         }
 
         @Override
@@ -193,13 +234,65 @@ public class MainActivity extends AppCompatActivity {
                 Log.w("MainActivity","result="+result);
             }catch (Exception e) {
                 if(! isCancelled()){
-                    LogUtils.d("文件压缩失败...");
+                    //showShortToast("文件压缩失败");
+                    tv_show.setText("文件压缩失败");
                 }
             } finally {
                 if(! isCancelled()){
                     //隐藏对话框
                     //dismissProgressDialog();
-                    LogUtils.d("压缩完成...");
+                    tv_show.setText("压缩完成");
+                }
+            }
+        }
+    }
+
+    /**
+     * 解压文件的异步请求任务
+     *
+     */
+    public class UnZipTask extends AsyncTask<String, Void, String>{
+
+        @Override
+        protected void onPreExecute() {
+            //显示进度对话框
+            //showProgressDialog("");
+            tv_show.setText("正在解压...");
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            String data = "";
+            if(! isCancelled()){
+                try {
+                    String zipPath = Environment.getExternalStorageDirectory() + "/why.zip";
+                    String targetDirPath = Environment.getExternalStorageDirectory() + "/why";
+                    AntZipUtils.unZip(zipPath,targetDirPath);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            return data;
+        }
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            if(isCancelled()){
+                return;
+            }
+            try {
+                Log.w("MainActivity","result="+result);
+            }catch (Exception e) {
+                if(! isCancelled()){
+                    //showShortToast("文件解压失败");
+                    tv_show.setText("文件解压失败");
+                }
+            } finally {
+                if(! isCancelled()){
+                    //隐藏对话框
+                    //dismissProgressDialog();
+                    tv_show.setText("解压完成");
                 }
             }
         }
@@ -216,6 +309,28 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void testAllFiles() {
+        //运行设备>=Android 11.0
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            //检查是否已经有权限
+            if (!Environment.isExternalStorageManager()) {
+                //跳转新页面申请权限
+                startActivityForResult(new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION), 101);
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //申请权限结果
+        if (requestCode == 101) {
+            if (Environment.isExternalStorageManager()) {
+                Toast.makeText(MainActivity.this, "访问所有文件权限申请成功", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     private void downloadFile(String url) {

@@ -1,113 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="20dp"
-    android:orientation="vertical"
+    android:layout_height="wrap_content"
     tools:context=".MainActivity">
-
-    <!--https://fortunespinwinner.s3.us-east-2.amazonaws.com/com.fortunespinwinner.ghk43/1.0.0/debug/subgame/loading.zip-->
-    <EditText
-        android:id="@+id/et_source"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
-        android:text="https://dl2.anl.ink/AnLinkSetup.zip" />
+        android:layout_height="match_parent"
+        android:layout_margin="20dp"
+        android:orientation="vertical">
 
-    <ProgressBar
-        android:id="@+id/pb_progress"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
 
-        <LinearLayout
+        <!--https://fortunespinwinner.s3.us-east-2.amazonaws.com/com.fortunespinwinner.ghk43/1.0.0/debug/subgame/loading.zip-->
+        <EditText
+            android:id="@+id/et_source"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:text="https://dl2.anl.ink/AnLinkSetup.zip" />
+
+        <ProgressBar
+            android:id="@+id/pb_progress"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_total_m"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    tools:text="12" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" / "
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tv_download_m"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/holo_green_light"
+                    android:textSize="15sp"
+                    tools:text="3.55" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:textColor="@android:color/holo_blue_dark"
+                android:textSize="15sp"
+                tools:text="88%" />
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/btn_download"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="开始下载" />
+
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="暂停下载" />
+
+        <Button
+            android:id="@+id/btn_unzip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="开始解压" />
+
+
+        <Button
+            android:id="@+id/btn_other"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="第三方解压" />
+
+        <Button
+            android:id="@+id/btn_storage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="申请存储权限" />
+
+        <Button
+            android:id="@+id/btn_storage_other"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="申请另外一个权限" />
+
+
+        <!--
+            <Button
+                android:id="@+id/btn_zip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="压缩" />
+        -->
+
+
+        <Button
+            android:id="@+id/btn_makeZip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:text="生成ZIP压缩包"/>
 
-            <TextView
-                android:id="@+id/tv_total_m"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="15sp"
-                tools:text="12" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" / "
-                android:textSize="15sp" />
-
-            <TextView
-                android:id="@+id/tv_download_m"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/holo_green_light"
-                android:textSize="15sp"
-                tools:text="3.55" />
-        </LinearLayout>
+        <Button
+            android:id="@+id/btn_unZip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="解压ZIP包"/>
 
         <TextView
-            android:id="@+id/tv_progress"
+            android:id="@+id/tv_show"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:textColor="@android:color/holo_blue_dark"
-            android:textSize="15sp"
-            tools:text="88%" />
-    </RelativeLayout>
+            android:text="模拟进度对话框显示"/>
 
-    <Button
-        android:id="@+id/btn_download"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="开始下载" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@color/design_default_color_background"/>
 
-    <Button
-        android:id="@+id/btn_cancel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="暂停下载" />
-
-    <Button
-        android:id="@+id/btn_unzip"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="开始解压" />
-
-
-    <Button
-        android:id="@+id/btn_other"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="第三方解压" />
-
-    <Button
-        android:id="@+id/btn_storage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="申请存储权限" />
-
-    <Button
-        android:id="@+id/btn_zip"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="压缩" />
-
-
-
-
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>
